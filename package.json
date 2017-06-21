@@ -1,0 +1,23 @@
+{
+    "name": "DragonMedical",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "license": "MIT",
+    "private": true,
+    "description": "DragonMedical",
+    "scripts": {
+        "start": "node dist/index.js",
+        "build": "node node_modules/typescript/bin/tsc --outDir dist -p src/tsconfig.json",
+        "build-watch": "node node_modules/typescript/bin/tsc -w --outDir dist -p src/tsconfig.json",
+        "tslint": "node node_modules/tslint/bin/tslint -c src/tslint.json --project src/tsconfig.json"
+    },
+    "devDependencies": {
+        "@types/mongodb": "^2.2.6",
+        "@types/node": "^8.0.1",
+        "tslint": "5.4.3",
+        "typescript": "2.3.4"
+    },
+    "dependencies": {
+        "mongodb": "^2.2.29"
+    }
+}
