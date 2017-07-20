@@ -1,56 +1,47 @@
-import {Collection, Db, MongoClient} from "mongodb";
-
-export class DatabaseManager {
-    private static _instance: DatabaseManager = new DatabaseManager();
-
-    private mongoClient: MongoClient;
-    private dragonDatabase: Db;
-
-    private constructor() {
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongodb_1 = require("mongodb");
+class DatabaseManager {
+    constructor() {
         if (DatabaseManager._instance) {
             throw new Error("Error: instantiation failed: Use DatabaseManager.getInstance() instead of new.");
         }
         DatabaseManager._instance = this;
     }
-
-    public static getInstance(): DatabaseManager {
+    static getInstance() {
         return DatabaseManager._instance;
     }
-
-    connect(): Promise<boolean|Error> {
+    connect() {
         if (this.mongoClient) {
             return Promise.reject(new Error("mongo client instance already exists"));
         }
-
-        this.mongoClient = new MongoClient();
-
-        return this.mongoClient.connect("mongodb://localhost:27017/Dragon").then((db: Db) => {
+        this.mongoClient = new mongodb_1.MongoClient();
+        return this.mongoClient.connect("mongodb://localhost:27017/Dragon").then((db) => {
             this.dragonDatabase = db;
             return true;
         });
     }
-
-    getCollection(name: string): Promise<Collection|Error> {
-        return new Promise<Collection|Error>((resolve, reject) => {
+    getCollection(name) {
+        return new Promise((resolve, reject) => {
             if (!this.dragonDatabase) {
                 reject(new Error("not connected"));
                 return;
             }
-
-            this.dragonDatabase.collection(name, (error: Error, collection: Collection) => {
+            this.dragonDatabase.collection(name, (error, collection) => {
                 if (!collection) {
                     reject(error);
-                } else {
+                }
+                else {
                     resolve(collection);
                 }
             });
-        }).catch((error: Error) => {
+        }).catch((error) => {
             if (error.message === "not connected") {
                 return Promise.reject(error);
             }
-
             // collection does not seam to exist --> try to create
             return this.dragonDatabase.createCollection(name);
         });
     }
 }
+DatabaseManager._instance = new DatabaseManager();
+exports.DatabaseManager = DatabaseManager;

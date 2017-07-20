@@ -1,0 +1,5 @@
+--timeout 10s
+--require test/bootstrap.js
+--colors
+--recursive
+-R spec
