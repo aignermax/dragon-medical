@@ -1,7 +1,8 @@
-import {Collection} from "mongodb";
+import {Collection , InsertOneWriteOpResult} from "mongodb";
 
 import {DatabaseManager} from "./DatabaseManager";
 
+const collectionDoctor : string = "doctor";
 export interface Doctor {
     firstname: String;
     secondname: String;
@@ -26,10 +27,31 @@ export function getDoctor(doctor: Doctor = null): Promise<Array<any>|Error> {
         });
     }
     // return search Promise
-    return DatabaseManager.getInstance().getCollection("doctor")
+    return DatabaseManager.getInstance().getCollection(collectionDoctor)
         .then((collection: Collection) => {
             return collection.find(queryObject).toArray();
         });
+}
+
+export function writeDoctor ( doctor: Doctor): Promise<InsertOneWriteOpResult> {
+    return new Promise<InsertOneWriteOpResult> ((resolve, reject) => {
+        resolve ( DatabaseManager.getInstance().insertElement(DatabaseManager
+            .getInstance().getCollection(collectionDoctor)[0], doctor));
+    })
+    .catch( (error: Error) => {
+        return Promise.reject(error);
+    });
+}
+
+/** insert multiple elements with special database command */
+export function writeDoctors (doctor: Array<Doctor> ): Promise<InsertOneWriteOpResult> {
+    return new Promise<InsertOneWriteOpResult> ((resolve, reject) => {
+        resolve ( DatabaseManager.getInstance().insertElements(DatabaseManager
+            .getInstance().getCollection(collectionDoctor)[0], doctor));
+    })
+    .catch( (error: Error) => {
+        return Promise.reject(error);
+    });
 }
 
 export function deleteDoctor(doctor: Doctor): Promise<void|Error> {
