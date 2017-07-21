@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es2015",
+        "sourceMap": true,
+        "alwaysStrict": true,
+        "lib": [
+            "ES5",
+            "ES2015"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

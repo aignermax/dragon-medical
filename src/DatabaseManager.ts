@@ -30,7 +30,12 @@ export class DatabaseManager {
         });
     }
 
-    getCollection(name: string): Promise<Collection|Error> {
+    /**
+     * returns Promise of collection of Data or creates newEntry if
+     * collection has not yet existed.
+     * @param name - name of collection
+     */
+    getCollection(name: string , createIfNotFound: boolean = true): Promise<Collection|Error> {
         return new Promise<Collection|Error>((resolve, reject) => {
             if (!this.dragonDatabase) {
                 reject(new Error("not connected"));
@@ -50,7 +55,46 @@ export class DatabaseManager {
             }
 
             // collection does not seam to exist --> try to create
-            return this.dragonDatabase.createCollection(name);
+            if (createIfNotFound) {
+                return this.dragonDatabase.createCollection(name);
+            } else {
+                return Promise.reject( new Error("collection not found"));
+            }
+        });
+    }
+
+    alterElement(collection: Collection , newObject: any , oldObject: any): Promise<Collection|Error> {
+        return new Promise<Collection|Error> ((resolve, reject) => {
+            collection.replaceOne(
+                oldObject,
+                newObject
+            );
+        })
+        .catch((error: Error) => {
+            return Promise.reject(error);
+        });
+    }
+
+    insertElement(collection: Collection , newObject: any): Promise<Collection|Error> {
+        return new Promise<Collection|Error> ((resolve, reject) => {
+            collection.insert(
+                newObject
+            );
+        })
+        .catch((error: Error) => {
+            return Promise.reject(error);
+        });
+    }
+
+    deleteElement(collection: Collection , object: any): Promise<Collection|Error> {
+        return new Promise<Collection|Error> ((resolve, reject) => {
+            if (!object) {
+                return reject( new Error("please specify which object you want to delete")); 
+            }
+            collection.deleteOne(object);
+        })
+        .catch((error: Error) => {
+            return Promise.reject(error);
         });
     }
 }
