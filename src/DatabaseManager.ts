@@ -1,4 +1,5 @@
-import {Collection, Db, MongoClient, InsertOneWriteOpResult , DeleteWriteOpResultObject , UpdateWriteOpResult} from "mongodb";
+import {Collection, Db, MongoClient, InsertOneWriteOpResult , DeleteWriteOpResultObject,
+     UpdateWriteOpResult} from "mongodb";
 
 export class DatabaseManager {
     private static _instance: DatabaseManager = new DatabaseManager();
@@ -17,7 +18,13 @@ export class DatabaseManager {
         return DatabaseManager._instance;
     }
 
-    connect(): Promise<boolean|Error> {
+    isconnected(): boolean {
+        if (!this.mongoClient) { return false; }
+        return true;
+    }
+
+    connect(whoisCalling: string ): Promise<boolean|Error> {
+        console.log("        [DatabaseMgr] -> Connect now: " + whoisCalling);
         if (this.mongoClient) {
             return Promise.reject(new Error("mongo client instance already exists"));
         }
