@@ -54,21 +54,29 @@ describe("doctor" , () => {
 
     it('should delete the newly added Doctor successfully' , async () => {
         const delResult: DeleteWriteOpResultObject = await doctor.deleteDoctors(myDoc);
-        console.log("      [doctor] deleted: " + delResult.deletedCount);
+        console.log("      [deleteOne] deleted: " + delResult.deletedCount);
         expect(delResult.deletedCount, "did not delete the one doctor").to.equal(1);
     });
 
-    it('should Write and then delete a List of Doctors' , async() => {
-        let myDoctors: Array<doctor.Doctor> = [];
+    let myDoctors: Array<doctor.Doctor> = []; // needed for the next three tests
+    it('should add some Doctors' , async() => {
         myDoctors.push( doctor.createDoctor("Thomas" , "Maier" , "Nebernstraße 10" , "11209243432"));
         myDoctors.push( doctor.createDoctor("Werner" , "Weber" , "Libellostraße 12" , "11235643435"));
         await doctor.writeDoctors(myDoctors);
         expect(await doctor.getDoctor(myDoctors[0])).to.exist
         expect(await doctor.getDoctor(myDoctors[1])).to.exist
+    });
+
+    it('should list all doctors', async ()=>{
+        let allDoctors: Array<doctor.Doctor> | Error= await doctor.getAll();
+        let amountDoctors = (<Array<doctor.Doctor>>allDoctors).length;
+        console.log("      [listall] found" , amountDoctors , "doctors");
+        expect(amountDoctors).to.be.greaterThan(1 , "did not find the two newly added doctors");
+    });
+
+    it('should delete a List of Doctors' , async() => {        
         const delResult: DeleteWriteOpResultObject = await doctor.deleteDoctors(myDoctors);
         expect(delResult.deletedCount).to.equal(2, "Could not delete the two newly added Doctors.");
     });
-    it('should list all doctors', ()=>{
-        expect(DatabaseManager.getInstance() , 'Got no instance of Database').to.exist;
-    });
+    
 });

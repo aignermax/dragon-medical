@@ -23,9 +23,11 @@ export function getDoctorbyLANR ( LANR: string): Promise<Array<any>|Error> {
     return getDoctor(createDoctor(null, null, null, LANR));
 }
 
+/** if fed with null, it returns null. */
 const removeEmpty = (obj) => {
-  Object.keys(obj).forEach((key) => (obj[key] == null || obj[key] === "") && delete obj[key]);
-  return obj;
+    if (!obj) { return {}; }
+    Object.keys(obj).forEach((key) => (obj[key] == null || obj[key] === "") && delete obj[key]);
+    return obj;
 };
 
 /** returns all doctors where all paramaters of Doctor match.
