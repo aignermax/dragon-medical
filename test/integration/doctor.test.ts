@@ -64,9 +64,7 @@ describe("doctor" , () => {
         myDoctors.push( doctor.createDoctor("Werner" , "Weber" , "Libellostraße 12" , "11235643435"));
         await doctor.writeDoctors(myDoctors);
         expect(await doctor.getDoctor(myDoctors[0])).to.exist
-        console.log("doctor1 exists");
         expect(await doctor.getDoctor(myDoctors[1])).to.exist
-        console.log("doctor2 exists");
         const delResult: DeleteWriteOpResultObject = await doctor.deleteDoctors(myDoctors);
         expect(delResult.deletedCount).to.equal(2, "Could not delete the two newly added Doctors.");
     });
