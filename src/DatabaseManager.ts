@@ -111,7 +111,7 @@ export class DatabaseManager {
     deleteElement(collection: Collection , object: any): Promise<DeleteWriteOpResultObject> {
         return new Promise<DeleteWriteOpResultObject> ((resolve, reject) => {
             if (!object) {
-                return reject( new Error("please specify which object you want to delete")); 
+                return reject( new Error("please specify which object you want to delete"));
             }
             resolve(collection.deleteOne(object));
         })

@@ -11,7 +11,7 @@ export interface Doctor {
 }
 
 export function getAll(): Promise<Array<any>|Error> {
-    return getDoctor();
+    return getOne();
 }
 
 export function createDoctor(firstname, secondname, address, LANR): Doctor {
@@ -20,7 +20,7 @@ export function createDoctor(firstname, secondname, address, LANR): Doctor {
 /** get Doctor by LANR as string */
 export function getDoctorbyLANR ( LANR: string): Promise<Array<any>|Error> {
     if (!LANR || Number(LANR) === 0) { return Promise.reject(new Error); } // sanity
-    return getDoctor(createDoctor(null, null, null, LANR));
+    return getOne(createDoctor(null, null, null, LANR));
 }
 
 /** if fed with null, it returns null. */
@@ -34,7 +34,7 @@ const removeEmpty = (obj) => {
  * Leave out parameters you don't need by assigning them null or "".
  * example: {firstname = "Aigner" , secondname="" , LANR="", address=""}
  */
-export function getDoctor(doctor: Doctor = null): Promise<Array<any>|Error> {
+export function getOne(doctor: Doctor = null): Promise<Array<any>|Error> {
     // return search Promise
     return DatabaseManager.getInstance().getCollection(collectionDoctor)
         .then((collection: Collection) => {
@@ -43,19 +43,33 @@ export function getDoctor(doctor: Doctor = null): Promise<Array<any>|Error> {
 }
 
 /** insert one doctor or multiple doctors at once. */
-export function writeDoctors (doctor: Array<Doctor> | Doctor ): Promise<InsertOneWriteOpResult> {
-    return new Promise<InsertOneWriteOpResult> ((resolve, reject) => {
+export function write (doctor: Array<Doctor> | Doctor ): Promise<number | Error> {
+    return new Promise<number| Error> ((resolve, reject) => {
         DatabaseManager.getInstance().getCollection(collectionDoctor)
         .then((collection: Collection<any>) => {
             if ((<Array<Doctor>>doctor).map) {
-                resolve ( DatabaseManager.getInstance().insertElements(collection, <Array<Doctor>>doctor));
+                DatabaseManager.getInstance().insertElements(collection, <Array<Doctor>>doctor)
+                .then((result: InsertOneWriteOpResult) => {
+                    if (result.result.ok) {
+                        resolve(result.insertedCount);
+                    } else {
+                        reject();
+                    }
+                });
             } else {
-                resolve ( DatabaseManager.getInstance().insertElement(collection, <Doctor>doctor));
+                DatabaseManager.getInstance().insertElement(collection, <Doctor>doctor)
+                .then((result: InsertOneWriteOpResult) => {
+                    if (result.result.ok) {
+                        resolve(result.insertedCount);
+                    } else {
+                        reject();
+                    }
+                });
             }
         });
     })
     .catch( (error: Error) => {
-        console.log("[doctor/writeDoctors] error: " + error.message + " " + error.stack );
+        console.log("[doctor/write] error: " + error.message + " " + error.stack );
         return Promise.reject(error);
     });
 }
@@ -64,7 +78,7 @@ export function writeDoctors (doctor: Array<Doctor> | Doctor ): Promise<InsertOn
  * If doctor is an array, it deletes all elements in Database that have the same LANR as the array-Elements.
  * Database should be consistent (No double LANRS);
 */
-export function deleteDoctors( doctor: Array<Doctor> | Doctor ): Promise<DeleteWriteOpResultObject> {
+export function deleteOneOrMany( doctor: Array<Doctor> | Doctor ): Promise<DeleteWriteOpResultObject> {
     return new Promise<DeleteWriteOpResultObject> ( (resolve, reject) => {
         DatabaseManager.getInstance().getCollection(collectionDoctor , false)
         .then((collection: Collection<any> | Error) => {

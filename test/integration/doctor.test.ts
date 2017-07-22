@@ -25,8 +25,8 @@ describe("doctor" , () => {
 
     it ('should add a doctor' , async () => {
         
-        const writeResult: InsertOneWriteOpResult =  await doctor.writeDoctors(myDoc);
-        expect(writeResult.insertedCount).to.equal(1);
+        const writeResult: number | Error =  await doctor.write(myDoc);
+        expect(writeResult).to.equal(1);
     });
 
     it('should return one doctor by his LANR', async () => {
@@ -41,7 +41,7 @@ describe("doctor" , () => {
     });
 
     it('should read the just added Doctor from database' , async () => {
-        const readResult: any[] | Error = await doctor.getDoctor(myDoc);
+        const readResult: any[] | Error = await doctor.getOne(myDoc);
         expect (readResult).to.not.have.property("stack", "Error: " + (<Error>readResult).message);
         //console.log(JSON.stringify(readResult));
         let readDoc = (<any[]>readResult)[0];
@@ -53,7 +53,7 @@ describe("doctor" , () => {
     });
 
     it('should delete the newly added Doctor successfully' , async () => {
-        const delResult: DeleteWriteOpResultObject = await doctor.deleteDoctors(myDoc);
+        const delResult: DeleteWriteOpResultObject = await doctor.deleteOneOrMany(myDoc);
         console.log("      [deleteOne] deleted: " + delResult.deletedCount);
         expect(delResult.deletedCount, "did not delete the one doctor").to.equal(1);
     });
@@ -62,20 +62,20 @@ describe("doctor" , () => {
     it('should add some Doctors' , async() => {
         myDoctors.push( doctor.createDoctor("Thomas" , "Maier" , "Nebernstraße 10" , "11209243432"));
         myDoctors.push( doctor.createDoctor("Werner" , "Weber" , "Libellostraße 12" , "11235643435"));
-        await doctor.writeDoctors(myDoctors);
-        expect(await doctor.getDoctor(myDoctors[0])).to.exist
-        expect(await doctor.getDoctor(myDoctors[1])).to.exist
+        await doctor.write(myDoctors);
+        expect(await doctor.getOne(myDoctors[0])).to.exist
+        expect(await doctor.getOne(myDoctors[1])).to.exist
     });
 
     it('should list all doctors', async ()=>{
         let allDoctors: Array<doctor.Doctor> | Error= await doctor.getAll();
         let amountDoctors = (<Array<doctor.Doctor>>allDoctors).length;
-        console.log("      [listall] found" , amountDoctors , "doctors");
+        console.log("      [listAll] found:" , amountDoctors , "doctors");
         expect(amountDoctors).to.be.greaterThan(1 , "did not find the two newly added doctors");
     });
 
     it('should delete a List of Doctors' , async() => {        
-        const delResult: DeleteWriteOpResultObject = await doctor.deleteDoctors(myDoctors);
+        const delResult: DeleteWriteOpResultObject = await doctor.deleteOneOrMany(myDoctors);
         expect(delResult.deletedCount).to.equal(2, "Could not delete the two newly added Doctors.");
     });
     
