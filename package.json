@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "mongodb": "^2.2.29",
-        "ntypescript": "1.201706190042.1"
+        "ntypescript": "1.201706190042.1",
+        "web-request": "^1.0.7"
     }
 }

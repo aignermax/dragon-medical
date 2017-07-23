@@ -11,7 +11,7 @@ describe("doctor" , () => {
     before( async ()=>{
         if ( DatabaseManager.getInstance().isconnected() === false){
             console.log("[doctor] reconnecting to Database. IsCon: " + DatabaseManager.getInstance().isconnected());
-            //await DatabaseManager.getInstance().connect();
+            await DatabaseManager.getInstance().connect("doctor.test");
         }
     });
 
@@ -78,5 +78,4 @@ describe("doctor" , () => {
         const delResult: DeleteWriteOpResultObject = await doctor.deleteOneOrMany(myDoctors);
         expect(delResult.deletedCount).to.equal(2, "Could not delete the two newly added Doctors.");
     });
-    
 });

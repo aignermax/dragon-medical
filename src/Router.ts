@@ -1,10 +1,10 @@
 import {IncomingMessage, ServerResponse} from "http";
 import * as doctor from "./doctor";
 
-interface postData {
+export interface postData {
     class: string;
     method: string;
-    queryDoctors: Array<doctor.Doctor>;
+    queryDoctors: Array<doctor.Doctor> ;
 }
 
 export class Router {
@@ -51,7 +51,7 @@ export class Router {
                             case "getAll": {
                                 return doctor.getAll();
                             }
-                            case "getOne": {
+                            case "get": {
                                 return doctor.getOne(myPostData.queryDoctors[0]);
                             }
                             case "write": {
@@ -65,6 +65,9 @@ export class Router {
                                 });
                             }
                             case "delete": {
+                                if (!myPostData.queryDoctors) {
+                                    return Promise.reject(new Error("queryDoctors must be specified -> delete All is not OK from API"));
+                                }
                                 // Todo -> Clean up here, too, if time
                                 return doctor.deleteOneOrMany(myPostData.queryDoctors)
                                 .then((value: any) => {

@@ -61,7 +61,6 @@ export class DragonServer {
     private onRequest(request: IncomingMessage, response: ServerResponse) {
         let pathname: string = parse(request.url).pathname,
             collectedData: string = "";
-
         request.setEncoding("utf8");
 
         request.on("data", (dataChunk: string) => {

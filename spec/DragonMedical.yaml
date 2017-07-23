@@ -1,0 +1,22 @@
+swagger: '2.0'
+info:
+  title: DragonMedicalApi
+  description: API for a Arzt Informations System (AIS)
+  version: "0.0.1"
+# the domain of the service
+host: localhost:8080
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /
+produces:
+  - application/json
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
+paths:
