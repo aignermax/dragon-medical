@@ -7,6 +7,8 @@ import {Router, postData} from "../../src/Router";
 import {DragonServer} from "../../src/DragonServer";
 import * as webrequest from 'web-request';
 import * as doctor from "../../src/doctor";
+import * as user from "../../src/user";
+import { DeleteWriteOpResultObject } from "mongodb";
 
 async function req( method:string , queryDoctors: Array<doctor.Doctor> = null ): Promise<postData> {
     let url:string = "http://localhost:8080/";
@@ -31,6 +33,8 @@ describe ("Router" , () => {
                 , pathname: string, data: string) => {
                 Router.getInstance().handle(request, response, pathname, data);
             });
+
+            // TODO -> Login before testing these functions.
     });
 
     let refDoctor1 = doctor.createDoctor("Samuel" , "Fleischmann" , "Grünweg 3" , "787643449");
@@ -74,6 +78,27 @@ describe ("Router" , () => {
         expect( result1.doctor.length).to.equal (0, " doctor still in database- deletion did not work");
         let result2: any = await req("get" , [refDoctor1]);
         expect( result2.doctor.length).to.equal (0, " doctor still in database- deletion did not work");
+    });
+
+
+    let exampleUser1: user.User = user.createUser("max_aigneraigner@web.de" , "Emil Egner" , "password");
+    let exampleUser2: user.User = user.createUser("test@web.de" , "Mustafa Mustamun" , "gleichesPW");
+
+    describe("Login Logout" , async () => {
+        it ("Should create a user in Database", async () => {
+            let result = await user.write(exampleUser1);
+            expect( result).to.equal(1, " adding User did not work because:" + result );
+        });
+        it("Should generate a Webtoken" , async () => {
+            let result2 = await user.login(exampleUser1.email, exampleUser1.password);
+            expect( result2.stack).to.not.exist("error occured: " + JSON.stringify(result2));
+            expect( result2.token).to.be.not.empty(" adding User did not work because:" + result2 );
+        });
+
+        it ("Should delete newly added users" , async() => {
+            let resultDelete: DeleteWriteOpResultObject = await user.deleteUser(exampleUser1);
+            expect( resultDelete.deletedCount).to.equal(1 , "should delete one, but deleted: " + resultDelete.deletedCount);
+        });
     });
 });
 

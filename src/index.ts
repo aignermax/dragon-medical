@@ -14,7 +14,6 @@ DragonServer.getInstance()
 
     .then(() => {
         console.log("=== Finished DragonServer start ===");
-
         return DatabaseManager.getInstance().connect("index");
     })
 

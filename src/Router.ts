@@ -1,11 +1,19 @@
 import {IncomingMessage, ServerResponse} from "http";
 import * as doctor from "./doctor";
+import * as user from "./user";
 
 export interface postData {
     class: string;
     method: string;
-    queryDoctors: Array<doctor.Doctor> ;
+    queryDoctors: Array<doctor.Doctor>;
 }
+
+export let errorMessages = {
+    notLoggedIn:        { code: 1, Message: "You have to log in to use this function "},
+    unknownError:       { code: 2, Message: "Unknown Error occured "},
+    notImplementedYet:  { code: 3, Message: "Function is not yet implemented "},
+    missingQueryDoctor: { code: 4 , Message: "Please specify a queryDoctor for this request"}
+};
 
 export class Router {
     private static _instance: Router = new Router();
@@ -22,11 +30,11 @@ export class Router {
     }
 
     handle(request: IncomingMessage, response: ServerResponse, pathname: string, data: string): void {
-        let myPostData: postData;
+        let myPostData: any;
 
         if (request.method !== "POST" || (pathname !== "/" && pathname !== "")) {
-            response.writeHead(501, {"Content-Type": "text/plain"});
-            response.end("not implemented yet");
+            response.writeHead(501, {"Content-Type": "application/json"});
+            response.end(JSON.stringify(errorMessages.notImplementedYet));
         } else {
             response.setHeader("Content-Type", "application/json");
 
@@ -52,6 +60,9 @@ export class Router {
                                 return doctor.getAll();
                             }
                             case "get": {
+                                if (!myPostData.queryDoctors) {
+                                    return Promise.reject(JSON.stringify(errorMessages.missingQueryDoctor));
+                                }
                                 return doctor.getOne(myPostData.queryDoctors[0]);
                             }
                             case "write": {
@@ -76,6 +87,12 @@ export class Router {
                                 .catch((error: Error) => {
                                     return Promise.reject(error);
                                 });
+                            }
+                            case "login": {
+                                return user.login(myPostData.email , myPostData.password);
+                            }
+                            case "logout": {
+                                return Promise.resolve("Just throw away your token");
                             }
                         }
                     }
