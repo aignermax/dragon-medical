@@ -13,12 +13,12 @@ let exampleUser1: user.User = user.createUserObject("max_aigneraigner@web.de" , 
 let exampleUser2: user.User = user.createUserObject("test@web.de" , "Mustafa Musterfahr" , password);
 
 describe("User" , async () => {
-    it ("Should create a user in Database", async () => {
+    it ("Should write a user to Database", async () => {
         let result = await user.write(exampleUser1);
         expect( result).to.equal(1, " adding User did not work because:" + result );
     });
     it("Should generate a Webtoken and verify it." , async () => {
-        let result2 = await user.login(exampleUser1.email, exampleUser1.password);  
+        let result2 = await user.login(exampleUser1.email, password);
         jwToken.verify( result2.token , (err, decodedToken) => {
             expect ( err).to.not.exist;
             if (err) {

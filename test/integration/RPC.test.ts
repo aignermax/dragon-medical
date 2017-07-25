@@ -18,8 +18,7 @@ async function reqRaw( inputdata: any):Promise<any> {
     let url:string = "http://localhost:8080/";
     let options:webrequest.RequestOptions = {
         method: 'post',
-        headers: {"Authorization": "Bearer " + token},
-        body: {body: JSON.stringify(inputdata)}
+        headers: {"Authorization": "Bearer " + token}
     };
     let data: webrequest.Response<string> = await webrequest.post(url , options , JSON.stringify(inputdata) );
     return JSON.parse(data.content);
@@ -35,10 +34,8 @@ function req( method:string , queryDoctors: Array<doctor.Doctor> | any = null ):
 }
 
 function login(user: user.User ): Promise<string> {
-    console.log("start login");
     return reqRaw({method: "login", class:"doctor", email: user.email, password: user.password })
     .then((data) => {
-        console.log("start login then");
         if (data.doctor && data.doctor.token) {
             return Promise.resolve<string> (data.doctor.token);
         } else {
@@ -58,7 +55,6 @@ describe ("Router" , () => {
                 , pathname: string, data: string) => {
                 Router.getInstance().handle(request, response, pathname, data);
             });
-
             // create user in Database so that we can login as that user
             await user.write( mainUser );
             mainUser.password = mainPassword;

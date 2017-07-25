@@ -15,16 +15,20 @@ export interface User {
     name: string;
     password: string;
 }
-function comparePassword(password1: string, secondPwHash: string ): Promise<void> {
-    return new Promise ( (resolve, reject) => {
-        bcrypt.compare(password1, secondPwHash, (err, match) => {
+/** compares the database-Hash with the Client-Sent plaintext-Password.
+ * Note: It cannot compare Hash to Hash, as the hashes vary according to
+ * the given salt.
+ */
+function comparePassword(plaintextpassword: string, hash: string ): Promise<void> {
+    return new Promise ((resolve, reject) => {
+        bcrypt.compare(plaintextpassword, hash , (err: Error, match: boolean) => {
             if (err) {
-                console.log( "rejected " , err);
                 reject(err);
             }
             if (match) {
-                console.log( "resolved " , match);
                 resolve();
+            }else {
+                reject();
             }
         });
     });
@@ -41,14 +45,13 @@ export function login ( email: string, password: string): Promise<any | Error> {
         if (users.length < 1 ) {
             return Promise.reject(new Error("Could not find User"));
         }
-        return comparePassword(users[0].password, password )
+        return comparePassword(password, users[0].password)
         .then ( () => {
             let webtoken = jwToken.issue ( {id: email} );
             return Promise.resolve<any|Error>( { id: email  , token: webtoken  } );
         })
         .catch ( (error ) => {
-            console.log("pw1:" , users[0].password , " pw2 " , password , " " , JSON.stringify(error));
-            return Promise.reject( new Error ( "password does not match our records"));
+            return Promise.reject( new Error ( "password does not match our records " + password ));
         });
     })
     .catch((error: Error) => {
@@ -67,7 +70,7 @@ export function makeUserEmailLowerCase( user: Array<User>|User) {
         (<User>user).email = (<User>user).email.toLowerCase();
     }
 }
-
+/** encrypts the user.password directly (in-place) */
 export function encryptUserPassword ( user: Array<User> | User) {
     if ((<Array<User>>user).map) { // make LowerCase
         (<Array<User>>user).map( async (user) => {
