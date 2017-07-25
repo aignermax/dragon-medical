@@ -89,19 +89,16 @@ export class DatabaseManager {
                 if ( "stack" in myCollection ) {
                     reject(<Error>myCollection);
                 }
-                if ((<Array<T>>element).copyWithin) {
-                    // TODO refactor later for readability
+                if ((<Array<T>>element).copyWithin) { // check if it is an array (has element copyWithin)
                     let myElements: Array<T> = (<Array<T>>element);
-                    // filter all keys that are not LANR
-                    myElements.forEach( (oneElement: T) => {
+                    myElements.forEach( (oneElement: T) => { // filter all keys that are not LANR
                         Object.keys(oneElement).forEach((key) => ((key !== "LANR" ) && delete(oneElement[key])));
                     });
-                    // extract Values of elements out of Array
-                    let myLANRs = [];
+                    let myLANRs = []; // extract Values of elements out of Array
                     myElements.forEach( (oneElement: T) => {
                         myLANRs.push (Object.keys(oneElement).map((key) => { return oneElement[key]; })[0] );
                     });
-                    resolve ((<Collection<any>>myCollection).deleteMany({ "LANR": {"$in": myLANRs }} ));
+                    resolve ((<Collection<any>>myCollection).deleteMany({ "LANR": {"$in": myLANRs }} )); // use optimized Database Command deleteMany+$in(list)
                 } else {
                     resolve((<Collection<any>>myCollection).deleteOne(<T>element));
                 }

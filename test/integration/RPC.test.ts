@@ -67,10 +67,6 @@ describe ("Router" , () => {
     let refDoctor1 = doctor.createDoctor("Samuel" , "Fleischmann" , "Grünweg 3" , "787643449");
     let refDoctor2 = doctor.createDoctor("Leopold" , "Metzger" , "Bachstraße 5" , "45328908")
     let doctorList: Array<doctor.Doctor> = [refDoctor1 , refDoctor2];
-    
-    // TODO -> Unify the response of the requests to a schema. 
-    // -> isSuccess:boolean , number: number, object: object/array
-    // TODO -> finish spec YAML File 
 
     it ( "should add a doctor" , async () => {
         let result: any = await req("write" , [refDoctor1]);
