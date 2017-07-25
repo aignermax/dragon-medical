@@ -33,7 +33,6 @@ describe("doctor" , () => {
         if((<Error>readResult).stack){
             expect((<Error>readResult).message).to.not.exist("Error occured: " + (<Error>readResult).message);
         }
-        console.log(JSON.stringify(readResult[0]));
         let readDoc = (<any[]>readResult)[0];
         expect(readDoc).to.exist;
         expect(readDoc.LANR).to.equal(myLANR);

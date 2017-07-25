@@ -1,6 +1,7 @@
 import {IncomingMessage, ServerResponse} from "http";
 import * as doctor from "./doctor";
 import * as user from "./user";
+import * as jwToken from "./jwToken";
 
 export interface postData {
     class: string;
@@ -9,10 +10,11 @@ export interface postData {
 }
 
 export let errorMessages = {
-    notLoggedIn:        { code: 1, Message: "You have to log in to use this function "},
-    unknownError:       { code: 2, Message: "Unknown Error occured "},
-    notImplementedYet:  { code: 3, Message: "Function is not yet implemented "},
-    missingQueryDoctor: { code: 4 , Message: "Please specify a queryDoctor for this request"}
+    notLoggedIn:         { code: 1, Message: "You have to log in to use this function "},
+    unknownError:        { code: 2, Message: "Unknown Error occured "},
+    notImplementedYet:   { code: 3, Message: "Function is not yet implemented "},
+    missingQueryDoctor:  { code: 4 , Message: "Please specify a queryDoctor for this request"},
+    notCorrectlyDefined: { code: 5 , Message: "Request not correctly defined"}
 };
 
 export class Router {
@@ -37,7 +39,6 @@ export class Router {
             response.end(JSON.stringify(errorMessages.notImplementedYet));
         } else {
             response.setHeader("Content-Type", "application/json");
-
             try {
                 myPostData = JSON.parse(data);
             } catch (e) {
@@ -54,6 +55,33 @@ export class Router {
 
             Promise.resolve()
                 .then(() => {
+                    // Check the JWToken that user gets at Login
+                    if ( myPostData.method === "login" ) {
+                        return Promise.resolve();
+                    }
+
+                    let token: string = "";
+                    let unauthorized: string = "";
+                    if (request.headers && request.headers.authorization) {
+                        let parts: Array<string>;
+                        if ((<Array<string>>request.headers.authorization).forEach) {
+                            parts = <Array<string>>request.headers.authorization;
+                        }else {
+                            parts = (<string>request.headers.authorization).split( " " );
+                        }
+                        if ( parts.length === 2) {
+                            let scheme: string = parts[0];
+                            let credentials: string = parts[1];
+                            if ( /^Bearer$/i.test(scheme)) {
+                                token = credentials;
+                            }
+                        } else {
+                            Promise.reject( new Error( "Format is 'Authorization: Bearer [token]'"));
+                        }
+                    }
+                    return jwToken.verifyPromise( token );
+                })
+                .then(() => {
                     if (myPostData.class === "doctor") {
                         switch (myPostData.method) {
                             case "getAll": {
@@ -61,34 +89,26 @@ export class Router {
                             }
                             case "get": {
                                 if (!myPostData.queryDoctors) {
-                                    return Promise.reject(JSON.stringify(errorMessages.missingQueryDoctor));
+                                    return Promise.reject(new Error( JSON.stringify(errorMessages.missingQueryDoctor)));
                                 }
                                 return doctor.getOne(myPostData.queryDoctors[0]);
                             }
                             case "write": {
-                                // Todo -> Clean up here
-                                return doctor.write(myPostData.queryDoctors)
-                                .then((value: any) => {
-                                    return Promise.resolve(value);
-                                })
-                                .catch((error: Error) => {
-                                    return Promise.reject(error);
-                                });
+                                if (!myPostData.queryDoctors) {
+                                    return Promise.reject(new Error (JSON.stringify(errorMessages.missingQueryDoctor)));
+                                }
+                                return doctor.write(myPostData.queryDoctors);
                             }
                             case "delete": {
                                 if (!myPostData.queryDoctors) {
-                                    return Promise.reject(new Error("queryDoctors must be specified -> delete All is not OK from API"));
+                                    return Promise.reject(new Error( JSON.stringify(errorMessages.missingQueryDoctor)));
                                 }
-                                // Todo -> Clean up here, too, if time
-                                return doctor.deleteOneOrMany(myPostData.queryDoctors)
-                                .then((value: any) => {
-                                    return Promise.resolve(value);
-                                })
-                                .catch((error: Error) => {
-                                    return Promise.reject(error);
-                                });
+                                return doctor.deleteOneOrMany(myPostData.queryDoctors);
                             }
                             case "login": {
+                                if (!myPostData.email || !myPostData.password ) {
+                                    return Promise.reject( new Error("[Router/handle] login needs email and password to operate"));
+                                }
                                 return user.login(myPostData.email , myPostData.password);
                             }
                             case "logout": {
@@ -96,14 +116,13 @@ export class Router {
                             }
                         }
                     }
-                    return Promise.reject(new Error("request not correctly defined"));
+                    return Promise.reject(new Error(JSON.stringify(errorMessages.notCorrectlyDefined)));
                 })
                 .then((data: any) => {
                     let result = {
                         success: true
                     };
                     result[myPostData.class] = data;
-
                     response.statusCode = 200;
                     response.write(JSON.stringify(result));
                 })
