@@ -15,13 +15,19 @@ let mainUser: user.User = user.createUserObject("max_aigneraigner@mail.de" , "te
 
 /** makes an API Request with custom inputdata */
 async function reqRaw( inputdata: any):Promise<any> {
+    let result:any = {};
     let url:string = "http://localhost:8080/";
     let options:webrequest.RequestOptions = {
         method: 'post',
         headers: {"Authorization": "Bearer " + token}
     };
     let data: webrequest.Response<string> = await webrequest.post(url , options , JSON.stringify(inputdata) );
-    return JSON.parse(data.content);
+    try {
+        result = JSON.parse(data.content);
+    } catch (error) {
+        return Promise.reject(new Error("Error -> could not parse data" + data.content + " " + error))
+    }
+    return result
 }
 /** makes an API request with queryDoctors formatted data */
 function req( method:string , queryDoctors: Array<doctor.Doctor> | any = null ): Promise<any> {
@@ -57,8 +63,10 @@ describe ("Router" , () => {
             });
             // create user in Database so that we can login as that user
             await user.write( mainUser );
+            await setTimeout(()=>{ } , 100);
             mainUser.password = mainPassword;
             token = await login( mainUser );
+            await setTimeout(()=>{ } , 100);
     });
     after( async() => {
         // cleanUp User from Database
@@ -107,5 +115,23 @@ describe ("Router" , () => {
         expect( result1.doctor.length).to.equal (0, " doctor still in database- deletion did not work");
         let result2: any = await req("get" , [refDoctor1]);
         expect( result2.doctor.length).to.equal (0, " doctor still in database- deletion did not work");
+    });
+
+    it("should block because of double sending" , async() => {
+        await setTimeout(()=>{ } , 100);
+        for( let i = 0 ; i < 20 ; i++){
+            login( mainUser)
+            .catch( (error: Error) => {
+                console.log(error);
+            });
+
+            login(mainUser)
+            .catch( (error: any) => {
+                expect(error.code).to.exist;
+                
+            });
+
+        }
+        
     });
 });

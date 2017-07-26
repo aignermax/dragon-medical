@@ -3,7 +3,6 @@ import * as jwt from "jsonwebtoken";
 let tokenSecret: string = "Li€b3894838f9da8*~!";
 
 export function issue (payload: any): string {
-  console.log("jwToken: " , payload);
   return jwt.sign(payload, tokenSecret, {
     expiresIn : 200 * 60
   });
