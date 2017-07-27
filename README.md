@@ -1,12 +1,3 @@
-<br />
-&nbsp;____ &nbsp;____ &nbsp;____ &nbsp;_____ ____ &nbsp;_ &nbsp; &nbsp; &nbsp; &nbsp;_ &nbsp; &nbsp; &nbsp;_____ ____ &nbsp;_ &nbsp;____ &nbsp;____ &nbsp;_ &nbsp; &nbsp;<br />
-/ &nbsp;_ \/ &nbsp;__\/ &nbsp;_ \/ &nbsp;__// &nbsp;_ \/ \ &nbsp;/| &nbsp;/ \__/|/ &nbsp;__// &nbsp;_ \/ \/ &nbsp; _\/ &nbsp;_ \/ \ &nbsp;&nbsp;<br />
-| | \|| &nbsp;\/|| / \|| | &nbsp;_| / \|| |\ || &nbsp;| |\/||| &nbsp;\ &nbsp;| | \|| || &nbsp;/ &nbsp;| / \|| | &nbsp;&nbsp;<br />
-| |_/|| &nbsp; &nbsp;/| |-||| |_//| \_/|| | \|| &nbsp;| | &nbsp;||| &nbsp;/_ | |_/|| || &nbsp;\_ | |-||| |_/\<br />
-\____/\_/\_\\_/ \|\____\\____/\_/ &nbsp;\| &nbsp;\_/ &nbsp;\|\____\\____/\_/\____/\_/ \|\____/<br />
-&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />
-
-
 # DragonServer                                        
 ## install modules (after cloning)
 `npm install`
