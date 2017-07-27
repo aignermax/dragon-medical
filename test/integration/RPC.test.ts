@@ -77,7 +77,7 @@ describe ("Router" , () => {
     });
     after( async() => {
         // cleanUp User from Database
-        user.deleteUser(mainUser);
+        await user.deleteUser(mainUser);
     });
     let refDoctor1 = doctor.createDoctor("Samuel" , "Fleischmann" , "Grünweg 3" , "787643449");
     let refDoctor2 = doctor.createDoctor("Leopold" , "Metzger" , "Bachstraße 5" , "45328908")
@@ -142,5 +142,10 @@ describe ("Router" , () => {
         console.log("      throttled" , throttlecount , "passed" , passedcount);
         expect( passedcount).to.be.greaterThan(2 , "Not a single Request came through -> something expected about 3-4");
         expect( throttlecount).to.be.greaterThan(3 , "Not a single Request was blocked! -> something expected about 6-7");
+    });
+
+    it( "should remove newly added user" , async () => {
+        let result = await user.deleteUser(mainUser);
+        expect(result.deletedCount).to.equal(1 , "could not delete user: " + JSON.stringify(mainUser));
     });
 });

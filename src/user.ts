@@ -7,6 +7,7 @@ import * as jwToken from "./jwToken";
 import { Collection, InsertOneWriteOpResult, DeleteWriteOpResultObject } from "mongodb";
 import { DatabaseManager } from "./DatabaseManager";
 import * as  bcrypt from "bcrypt";
+import * as _ from "lodash";
 
 export let collectionUser: string = "user";
 
@@ -71,26 +72,32 @@ export function makeUserEmailLowerCase( user: Array<User>|User) {
     }
 }
 /** encrypts the user.password directly (in-place) */
-export function encryptUserPassword ( user: Array<User> | User) {
+export function encryptUserPassword ( user: Array<User> | User): Array<User> | User {
     if ((<Array<User>>user).map) { // make LowerCase
-        (<Array<User>>user).map( async (user) => {
+        let newuserlist: Array<User> = _.cloneDeep(<Array<User>>user);
+        (<Array<User>>newuserlist).map( async (user) => {
             user.password = bcrypt.hashSync(user.password, 3);
             return user;
         });
+        return newuserlist;
     } else {
-        (<User>user).password = bcrypt.hashSync((<User>user).password , 3);
+        let newuser = _.cloneDeep(user);
+        (<User>newuser).password = bcrypt.hashSync((<User>newuser).password , 3);
+        return newuser;
     }
 }
 /** insert one user or multiple users at once. */
 export function write (user: Array<User> | User ): Promise<number | Error> {
     makeUserEmailLowerCase(user);
-    encryptUserPassword(user);
-    return DatabaseManager.getInstance().writeEntries<User>(collectionUser, user);
+    let encryptedUser = encryptUserPassword(user); // will create a new user with encrypted pw.
+    return DatabaseManager.getInstance().writeEntries<User>(collectionUser, encryptedUser);
 }
 
 export function deleteUser (user: User): Promise<DeleteWriteOpResultObject> {
     makeUserEmailLowerCase(user);
-    return DatabaseManager.getInstance().deleteOneOrMany<User> (collectionUser, user);
+    let copieduser = _.cloneDeep(user); // deep clone so that we don't damage the original user
+    delete copieduser.password; // remove password, as the salt changes the hash every time and makes the old has unsearchable
+    return DatabaseManager.getInstance().deleteOneOrMany<User> (collectionUser, copieduser);
 }
 
 export function createUserObject ( email: string, name: string= "", password: string= "" ): User {
