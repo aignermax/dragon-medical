@@ -1,29 +1,51 @@
-# DragonMedical
+   / /  / /  / /  / /  / /  / /  / /  / /  / /  / /  / /
+ -/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/-
+-/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/- 
+/ /  / /  / /  / /  / /  / /  / /  / /  / /  / /  / /   
+                                                        
+                                                        
+  ___                          __,                      
+ ( / \                        (                         
+  /  /_   __,  _,  __ _ _      `.  _  _   _  ,__  _     
+(/\_// (_(_/(_(_)_(_)/ / /_  (___)(/_/ (_/ |/ (/_/ (_   
+               /|                                       
+              (/                                        
+   / /  / /  / /  / /  / /  / /  / /  / /  / /  / /  / /
+ -/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/-
+-/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/--/-/- 
+/ /  / /  / /  / /  / /  / /  / /  / /  / /  / /  / /   
+                                                        
+                                                        
+################################################
+1. install modules (after cloning)
+    `npm install`
 
-## Setup
+################################################
+2. setup MongoDB locally
+    download & install mongoDB from https://www.mongodb.com/download-center
+    (windows): run batch file `startmongo.bat` to create mongo-folder and start mongod server on localhost
+    (linux/mac): create folder data/db in project and run 
+    `mongod --dbpath "data\db"`
+    to choose that folder, then, (Linux only) add testuser -> `mongo Dragon --eval "db.user.insert({email:'max_aigneraigner@web.de', name: 'tester' , password: '$2a$04$hKyOOOJPyiSc0ca2xNqCguHwUywRWZPn0P.7H4BbjqwNzH4zKww7u' });"`
+    (in windows this is done in the batch script)
 
-To setup the project do the following steps:
+################################################
+3. run Unit Tests
+    `npm run pretest`
+    `npm run test`
 
-1. check out the repository
-2. install node 8 and npm 5 on your system
-3. do a `npm install` in the repository path
+################################################
+4. build & start Server and connect with postman!
+    `npm run build`
+    or 
+    `npm run build-watch`
+    npm start
+    -> the postman collection is called "Red Medical.postman_collection.json". Import that into postman.
 
-## Building the package
-
-Run `npm run build` or `npm run build-watch` to execute building with
- watching for file changes.
- 
-## Running the server
-
-Run `node dist/index.js` or `npm start`.
-
-## Running tslint to check your code:
-
+################################################
+5. Running tslint to check your code:
 Run `npm run tslint`.
 
-## Accessing the server
-
-The server will start on `http://localhost:8080`.
-The RPC-Interface needs POST-Messages so only those are implemented yet.
-
-You can use the Chrome Extension `Postman` (https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) to test your requests. 
+################################################
+6. Accessing the server
+The server will start on `http://localhost:8080`
