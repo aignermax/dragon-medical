@@ -1,10 +1,9 @@
-
-import { expect } from 'chai';
+import { expect } from "chai";
 import {IncomingMessage, ServerResponse} from "http";
 import {Router, postData} from "../../src/Router";
 import {DragonServer} from "../../src/DragonServer";
-import { DatabaseManager } from '../../src/DatabaseManager';
-import * as webrequest from 'web-request';
+import { DatabaseManager } from "../../src/DatabaseManager";
+import * as webrequest from "web-request";
 import * as doctor from "../../src/doctor";
 import * as user from "../../src/user";
 
@@ -13,23 +12,23 @@ let mainPassword = "complicatedPfddW32";
 let mainUser: user.User = user.createUserObject("max_aigneraigner@mail.de" , "tester" , mainPassword);
 
 /** makes an API Request with custom inputdata */
-async function reqRaw( inputdata: any):Promise<any> {
-    let result:any = {};
-    let url:string = "http://localhost:8080/";
-    let options:webrequest.RequestOptions = {
-        method: 'post',
+async function reqRaw( inputdata: any): Promise<any> {
+    let result: any = {};
+    let url: string = "http://localhost:8080/";
+    let options: webrequest.RequestOptions = {
+        method: "post",
         headers: {"Authorization": "Bearer " + token}
     };
     let data: webrequest.Response<string> = await webrequest.post(url , options , JSON.stringify(inputdata) );
     try {
         result = JSON.parse(data.content);
     } catch (error) {
-        return Promise.reject(new Error("Error -> could not parse data" + data.content + " " + error))
+        return Promise.reject(new Error("Error -> could not parse data" + data.content + " " + error));
     }
-    return result
+    return result;
 }
 /** makes an API request with queryDoctors formatted data */
-function req( method:string , queryDoctors: Array<doctor.Doctor> | any = null ): Promise<any> {
+function req( method: string , queryDoctors: Array<doctor.Doctor> | any = null ): Promise<any> {
     let inputdata: postData = {
         class: "doctor",
         method,
@@ -43,7 +42,7 @@ function sleep(ms) {
 }
 
 function login(user: user.User ): Promise<string> {
-    return reqRaw({method: "login", class:"doctor", email: user.email, password: user.password })
+    return reqRaw({method: "login", class: "doctor", email: user.email, password: user.password })
     .then((data) => {
         if (data.doctor && data.doctor.token) {
             return Promise.resolve<string> (data.doctor.token);
@@ -51,15 +50,15 @@ function login(user: user.User ): Promise<string> {
             return Promise.reject<string> (" Error -> did not receive token, but: " + JSON.stringify(data));
         }
     })
-    .catch((error)=>{
+    .catch((error) => {
         return Promise.reject(error);
     });
-};
+}
 
 describe ("Router" , () => {
 
     before( async () => {
-        if ( DatabaseManager.getInstance().isconnected() === false){
+        if ( DatabaseManager.getInstance().isconnected() === false) {
             console.log("[doctor] reconnecting to Database. IsCon: " + DatabaseManager.getInstance().isconnected());
             await DatabaseManager.getInstance().connect("doctor.test");
         }
@@ -70,17 +69,14 @@ describe ("Router" , () => {
             });
             // create user in Database so that we can login as that user
             await user.write( mainUser );
-            await setTimeout(()=>{ } , 100);
+            await setTimeout(() => { } , 100);
             mainUser.password = mainPassword;
             token = await login( mainUser );
-            await setTimeout(()=>{ } , 100);
+            await setTimeout(() => { } , 100);
     });
-    after( async() => {
-        // cleanUp User from Database
-        await user.deleteUser(mainUser);
-    });
+
     let refDoctor1 = doctor.createDoctor("Samuel" , "Fleischmann" , "Grünweg 3" , "787643449");
-    let refDoctor2 = doctor.createDoctor("Leopold" , "Metzger" , "Bachstraße 5" , "45328908")
+    let refDoctor2 = doctor.createDoctor("Leopold" , "Metzger" , "Bachstraße 5" , "45328908");
     let doctorList: Array<doctor.Doctor> = [refDoctor1 , refDoctor2];
 
     it ( "should add a doctor" , async () => {
@@ -88,7 +84,7 @@ describe ("Router" , () => {
         expect(result).to.exist;
         expect(result.success).to.equal(true, "expected result.success to be true, but got: " + JSON.stringify(result));
     });
-    
+
     it ( "should get a doctor" , async () => {
         let getResult: any = await req("get" , [refDoctor1]);
         expect(getResult.doctor).to.not.equal( undefined , "received: " + JSON.stringify(getResult));
@@ -101,7 +97,7 @@ describe ("Router" , () => {
         expect(result.doctor).to.not.equal( undefined , "received: " + JSON.stringify(result));
         expect( result.doctor.length).to.equal(0, "doctor still in database- deletion did not work");
     });
-    
+
     it ( "should add two doctor" , async () => {
         let result: any = await req("write", doctorList);
         expect(result.doctor).to.not.equal( undefined , "received: " + JSON.stringify(result));
@@ -128,13 +124,13 @@ describe ("Router" , () => {
         await sleep(20);
         let throttlecount = 0;
         let passedcount = 0;
-        for( let i = 1 ; i < 20 ; i++){
+        for ( let i = 1 ; i < 20 ; i++ ) {
             await sleep(2);
             login(mainUser)
-            .then( (data ) =>{
+            .then( (data ) => {
                 passedcount ++;
             })
-            .catch( (error: any) => {      
+            .catch( (error: any) => {
                 throttlecount ++;
             });
         }

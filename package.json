@@ -10,6 +10,7 @@
     "build": "node node_modules/typescript/bin/tsc --outDir dist -p src/tsconfig.json",
     "build-watch": "node node_modules/typescript/bin/tsc -w --outDir dist -p src/tsconfig.json",
     "tslint": "node node_modules/tslint/bin/tslint -c src/tslint.json --project src/tsconfig.json",
+    "tslinttest": "node node_modules/tslint/bin/tslint -c src/tslint.json --project test/tsconfig.json",
     "pretest": "node node_modules/typescript/bin/tsc -p test/tsconfig.json --outDir test/build",
     "test": "node node_modules/mocha/bin/mocha"
   },

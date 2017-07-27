@@ -1,11 +1,10 @@
 import {exit} from "process";
 import {DragonServer} from "./DragonServer";
 import {DatabaseManager} from "./DatabaseManager";
-import {Router} from "./Router";111
-import * as  cluster from 'cluster';
-import * as  http from 'http';
-let numCPUs = require('os').cpus().length;
-
+import {Router} from "./Router";
+import * as  cluster from "cluster";
+import * as  http from "http";
+let numCPUs = require("os").cpus().length;
 
 
 if (cluster.isMaster) {
@@ -16,7 +15,7 @@ if (cluster.isMaster) {
         cluster.fork();
     }
 
-    cluster.on('exit', (worker, code, signal) => {
+    cluster.on("exit", (worker, code, signal) => {
         console.log(`worker ${worker.process.pid} died`);
     });
 } else {

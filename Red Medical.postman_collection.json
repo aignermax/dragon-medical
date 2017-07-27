@@ -3,13 +3,52 @@
 	"name": "Red Medical",
 	"description": "",
 	"order": [
-		"9293e768-3049-3352-b122-eaeb3397de19"
+		"9293e768-3049-3352-b122-eaeb3397de19",
+		"c89c2f6b-4cc4-fa1a-d3f6-ea2f64f033fb",
+		"b4e9222b-0f87-77df-77d3-5a110f232c32",
+		"3298ac0a-5c61-d0ce-85c3-2c5e74c5072b",
+		"93dc8e2f-ada5-7fa2-1334-5ff9b3521d8c"
 	],
 	"folders": [],
 	"timestamp": 1501145894774,
 	"owner": "406424",
 	"public": false,
 	"requests": [
+		{
+			"id": "3298ac0a-5c61-d0ce-85c3-2c5e74c5072b",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer  \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer  ",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1501157849406,
+			"name": "get specific doctor",
+			"description": "Add Bearer Token \nAuthorization: Bearer [token]",
+			"collectionId": "72d9b0ff-78ec-4898-6a6f-a6eb90dbcd99",
+			"responses": [],
+			"rawModeData": "{\n  \"method\": \"get\",\n  \"class\": \"doctor\",\n  \"queryDoctors\": [{\"firstname\":\"fritz\" , \"secondname\":\"Maier\" , \"address\" : \"an der wiese\" , \"LANR\" : \"23434343\"}]\n}\n"
+		},
 		{
 			"id": "9293e768-3049-3352-b122-eaeb3397de19",
 			"headers": "Content-Type: application/json\n",
@@ -32,12 +71,117 @@
 			"tests": null,
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1501146230173,
+			"time": 1501150015906,
 			"name": "Login",
-			"description": "",
+			"description": "Login to get a Token!",
 			"collectionId": "72d9b0ff-78ec-4898-6a6f-a6eb90dbcd99",
 			"responses": [],
-			"rawModeData": "{\n  \"method\": \"login\",\n  \"class\": \"doctor\",\n  \"email\": \"max_aigneraigner@mail.de\",\n  \"password\": \"complicatedPfddW32\"\n}\n"
+			"rawModeData": "{\n  \"method\": \"login\",\n  \"class\": \"doctor\",\n  \"email\": \"max_aigneraigner@web.de\",\n  \"password\": \"complicatedPfddW32\"\n}\n"
+		},
+		{
+			"id": "93dc8e2f-ada5-7fa2-1334-5ff9b3521d8c",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer ",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1501157830617,
+			"name": "delete doctor",
+			"description": "Add Bearer Token \nAuthorization: Bearer [token]",
+			"collectionId": "72d9b0ff-78ec-4898-6a6f-a6eb90dbcd99",
+			"responses": [],
+			"rawModeData": "{\n  \"method\": \"getAll\",\n  \"class\": \"doctor\",\n  \"queryDoctors\": [{\"firstname\":\"fritz\" , \"secondname\":\"Maier\" , \"address\" : \"an der wiese\" , \"LANR\" : \"23434343\"}]\n}"
+		},
+		{
+			"id": "b4e9222b-0f87-77df-77d3-5a110f232c32",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer ",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1501157859576,
+			"name": "list all doctors",
+			"description": "Add Bearer Token \nAuthorization: Bearer [token]",
+			"collectionId": "72d9b0ff-78ec-4898-6a6f-a6eb90dbcd99",
+			"responses": [],
+			"rawModeData": "{\n  \"method\": \"getAll\",\n  \"class\": \"doctor\",\n  \"queryDoctors\": []\n}\n"
+		},
+		{
+			"id": "c89c2f6b-4cc4-fa1a-d3f6-ea2f64f033fb",
+			"headers": "Content-Type: application/json\nAuthorization: Bearer \n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Authorization",
+					"value": "Bearer ",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1501157868761,
+			"name": "create doctor",
+			"description": "Add Bearer Token \nAuthorization: Bearer [token]",
+			"collectionId": "72d9b0ff-78ec-4898-6a6f-a6eb90dbcd99",
+			"responses": [],
+			"rawModeData": "{\n  \"method\": \"write\",\n  \"class\": \"doctor\",\n  \"queryDoctors\": [{\"firstname\":\"fritz\" , \"secondname\":\"Maier\" , \"address\" : \"an der wiese\" , \"LANR\" : \"23434343\"}]\n}\n"
 		}
 	]
 }
