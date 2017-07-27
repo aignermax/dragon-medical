@@ -26,7 +26,8 @@
     (windows): run batch file "startmongo.bat" to create mongo-folder and start mongod server on localhost
     (linux/mac): create folder data/db in project and run 
     mongod --dbpath "data\db"
-    to choose that folder
+    to choose that folder, then, (Linux only) add testuser -> mongo Dragon --eval "db.user.insert({email:'max_aigneraigner@web.de', name: 'tester' , password: '$2a$04$hKyOOOJPyiSc0ca2xNqCguHwUywRWZPn0P.7H4BbjqwNzH4zKww7u' });"
+    (in windows this is done in the batch script)
 
 ################################################
 3. run Unit Tests
