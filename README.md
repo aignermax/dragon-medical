@@ -1,15 +1,11 @@
 <br />
-$$$$$$$\ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$$\ &nbsp; &nbsp; &nbsp;$$\ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $$\ $$\ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $$\&nbsp;<br />
-$$ &nbsp;__$$\ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $$$\ &nbsp; &nbsp;$$$ | &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$$ |\__| &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$$ |<br />
-$$ | &nbsp;$$ | $$$$$$\ &nbsp; $$$$$$\ &nbsp; $$$$$$\ &nbsp; $$$$$$\ &nbsp;$$$$$$$\ &nbsp; &nbsp; &nbsp; &nbsp;$$$$\ &nbsp;$$$$ | $$$$$$\ &nbsp; $$$$$$$ |$$\ &nbsp;$$$$$$$\ &nbsp;$$$$$$\ &nbsp;$$ |<br />
-$$ | &nbsp;$$ |$$ &nbsp;__$$\ &nbsp;\____$$\ $$ &nbsp;__$$\ $$ &nbsp;__$$\ $$ &nbsp;__$$\ &nbsp; &nbsp; &nbsp; $$\$$\$$ $$ |$$ &nbsp;__$$\ $$ &nbsp;__$$ |$$ |$$ &nbsp;_____| \____$$\ $$ |<br />
-$$ | &nbsp;$$ |$$ | &nbsp;\__| $$$$$$$ |$$ / &nbsp;$$ |$$ / &nbsp;$$ |$$ | &nbsp;$$ | &nbsp; &nbsp; &nbsp;$$ \$$$ &nbsp;$$ |$$$$$$$$ |$$ / &nbsp;$$ |$$ |$$ / &nbsp; &nbsp; &nbsp; $$$$$$$ |$$ |<br />
-$$ | &nbsp;$$ |$$ | &nbsp; &nbsp; &nbsp;$$ &nbsp;__$$ |$$ | &nbsp;$$ |$$ | &nbsp;$$ |$$ | &nbsp;$$ | &nbsp; &nbsp; &nbsp;$$ |\$ &nbsp;/$$ |$$ &nbsp; ____|$$ | &nbsp;$$ |$$ |$$ | &nbsp; &nbsp; &nbsp;$$ &nbsp;__$$ |$$ |<br />
-$$$$$$$ &nbsp;|$$ | &nbsp; &nbsp; &nbsp;\$$$$$$$ |\$$$$$$$ |\$$$$$$ &nbsp;|$$ | &nbsp;$$ | &nbsp; &nbsp; &nbsp;$$ | \_/ $$ |\$$$$$$$\ \$$$$$$$ |$$ |\$$$$$$$\ \$$$$$$$ |$$ |<br />
-\_______/ \__| &nbsp; &nbsp; &nbsp; \_______| \____$$ | \______/ \__| &nbsp;\__| &nbsp; &nbsp; &nbsp;\__| &nbsp; &nbsp; \__| \_______| \_______|\__| \_______| \_______|\__|<br />
-&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$$\ &nbsp; $$ | &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />
-&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\$$$$$$ &nbsp;| &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />
-&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \______/ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br />
+&nbsp;____ &nbsp;____ &nbsp;____ &nbsp;_____ ____ &nbsp;_ &nbsp; &nbsp; &nbsp; &nbsp;_ &nbsp; &nbsp; &nbsp;_____ ____ &nbsp;_ &nbsp;____ &nbsp;____ &nbsp;_ &nbsp; &nbsp;<br />
+/ &nbsp;_ \/ &nbsp;__\/ &nbsp;_ \/ &nbsp;__// &nbsp;_ \/ \ &nbsp;/| &nbsp;/ \__/|/ &nbsp;__// &nbsp;_ \/ \/ &nbsp; _\/ &nbsp;_ \/ \ &nbsp;&nbsp;<br />
+| | \|| &nbsp;\/|| / \|| | &nbsp;_| / \|| |\ || &nbsp;| |\/||| &nbsp;\ &nbsp;| | \|| || &nbsp;/ &nbsp;| / \|| | &nbsp;&nbsp;<br />
+| |_/|| &nbsp; &nbsp;/| |-||| |_//| \_/|| | \|| &nbsp;| | &nbsp;||| &nbsp;/_ | |_/|| || &nbsp;\_ | |-||| |_/\<br />
+\____/\_/\_\\_/ \|\____\\____/\_/ &nbsp;\| &nbsp;\_/ &nbsp;\|\____\\____/\_/\____/\_/ \|\____/<br />
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<br />
+
 
 # DragonServer                                        
 ## install modules (after cloning)
@@ -32,13 +28,18 @@ to choose that folder, then, (Linux only) add testuser ->
 
 ## run Unit Tests
 `npm run pretest`
+
 `npm run test`
 
 ## build & start Server and connect with postman!
 `npm run build`
+
 or 
+
 `npm run build-watch`
-npm start
+
+`npm start`
+
 -> the postman collection is called "Red Medical.postman_collection.json". Import that into postman.
 
 ## Running tslint to check your code:
