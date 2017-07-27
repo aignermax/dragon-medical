@@ -1,27 +1,39 @@
 import {exit} from "process";
-import {IncomingMessage, ServerResponse} from "http";
-
 import {DragonServer} from "./DragonServer";
 import {DatabaseManager} from "./DatabaseManager";
-import {Router} from "./Router";
+import {Router} from "./Router";111
+import * as  cluster from 'cluster';
+import * as  http from 'http';
+let numCPUs = require('os').cpus().length;
 
-console.info("=== Starting DragonServer ===");
 
-DragonServer.getInstance()
-    .start((request: IncomingMessage, response: ServerResponse, pathname: string, data: string) => {
-        Router.getInstance().handle(request, response, pathname, data);
-    })
 
-    .then(() => {
-        console.log("=== Finished DragonServer start ===");
-        return DatabaseManager.getInstance().connect("index");
-    })
+if (cluster.isMaster) {
+    console.info(`=== Starting DragonServer Master: ${process.pid}===`);
 
-    .then(() => {
-        console.log("--- Connection to MongoDB established ---");
-    })
+    // Fork workers.
+    for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
 
-    .catch((error: Error) => {
-        console.error("An error occured during server start", error);
-        exit(1);
+    cluster.on('exit', (worker, code, signal) => {
+        console.log(`worker ${worker.process.pid} died`);
     });
+} else {
+    // create the workers
+    DragonServer.getInstance()
+        .start((request: http.IncomingMessage, response: http.ServerResponse, pathname: string, data: string) => {
+            Router.getInstance().handle(request, response, pathname, data);
+        })
+        .then(() => {
+            console.log(`=== Finished DragonServer ${process.pid} start ===`);
+            return DatabaseManager.getInstance().connect("index");
+        })
+        .then(() => {
+            console.log(`--- ${process.pid}: Connection to MongoDB established ---`);
+        })
+        .catch((error: Error) => {
+            console.error(`An error occured during server: ${process.pid} start`, error);
+            exit(1);
+        });
+}

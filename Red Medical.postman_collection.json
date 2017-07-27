@@ -1,0 +1,43 @@
+{
+	"id": "72d9b0ff-78ec-4898-6a6f-a6eb90dbcd99",
+	"name": "Red Medical",
+	"description": "",
+	"order": [
+		"9293e768-3049-3352-b122-eaeb3397de19"
+	],
+	"folders": [],
+	"timestamp": 1501145894774,
+	"owner": "406424",
+	"public": false,
+	"requests": [
+		{
+			"id": "9293e768-3049-3352-b122-eaeb3397de19",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8080",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1501146230173,
+			"name": "Login",
+			"description": "",
+			"collectionId": "72d9b0ff-78ec-4898-6a6f-a6eb90dbcd99",
+			"responses": [],
+			"rawModeData": "{\n  \"method\": \"login\",\n  \"class\": \"doctor\",\n  \"email\": \"max_aigneraigner@mail.de\",\n  \"password\": \"complicatedPfddW32\"\n}\n"
+		}
+	]
+}

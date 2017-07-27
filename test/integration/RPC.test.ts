@@ -1,10 +1,9 @@
-/// <reference path="../../typings/globals/mocha/index.d.ts" />
-/// <reference path="../../typings/globals/chai/index.d.ts" />
 
 import { expect } from 'chai';
 import {IncomingMessage, ServerResponse} from "http";
 import {Router, postData} from "../../src/Router";
 import {DragonServer} from "../../src/DragonServer";
+import { DatabaseManager } from '../../src/DatabaseManager';
 import * as webrequest from 'web-request';
 import * as doctor from "../../src/doctor";
 import * as user from "../../src/user";
@@ -39,6 +38,10 @@ function req( method:string , queryDoctors: Array<doctor.Doctor> | any = null ):
     return reqRaw(inputdata );
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function login(user: user.User ): Promise<string> {
     return reqRaw({method: "login", class:"doctor", email: user.email, password: user.password })
     .then((data) => {
@@ -56,6 +59,10 @@ function login(user: user.User ): Promise<string> {
 describe ("Router" , () => {
 
     before( async () => {
+        if ( DatabaseManager.getInstance().isconnected() === false){
+            console.log("[doctor] reconnecting to Database. IsCon: " + DatabaseManager.getInstance().isconnected());
+            await DatabaseManager.getInstance().connect("doctor.test");
+        }
         await DragonServer.getInstance()
             .start((request: IncomingMessage, response: ServerResponse
                 , pathname: string, data: string) => {
@@ -118,20 +125,22 @@ describe ("Router" , () => {
     });
 
     it("should block because of double sending" , async() => {
-        await setTimeout(()=>{ } , 100);
-        for( let i = 0 ; i < 20 ; i++){
-            login( mainUser)
-            .catch( (error: Error) => {
-                console.log(error);
-            });
-
+        await sleep(20);
+        let throttlecount = 0;
+        let passedcount = 0;
+        for( let i = 1 ; i < 20 ; i++){
+            await sleep(2);
             login(mainUser)
-            .catch( (error: any) => {
-                expect(error.code).to.exist;
-                
+            .then( (data ) =>{
+                passedcount ++;
+            })
+            .catch( (error: any) => {      
+                throttlecount ++;
             });
-
         }
-        
+        await sleep(10);
+        console.log("      throttled" , throttlecount , "passed" , passedcount);
+        expect( passedcount).to.be.greaterThan(2 , "Not a single Request came through -> something expected about 3-4");
+        expect( throttlecount).to.be.greaterThan(3 , "Not a single Request was blocked! -> something expected about 6-7");
     });
 });

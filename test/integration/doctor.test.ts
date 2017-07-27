@@ -1,5 +1,3 @@
-/// <reference path="../../typings/globals/mocha/index.d.ts" />
-/// <reference path="../../typings/globals/chai/index.d.ts" />
 
 import { Collection, InsertOneWriteOpResult, DeleteWriteOpResultObject} from "mongodb";
 import * as doctor from '../../src/doctor';

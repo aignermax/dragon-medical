@@ -33,10 +33,10 @@ export class Router {
         return Router._instance;
     }
     private throttleThat = true;
-    private throttleTester () {
-        console.log("Dont Throttle");
+    private throttleTester  = _.throttle( () => {
         Router.getInstance().throttleThat = false;
-    }
+    }, 5);
+
     private throttledNr = 0;
     handle(request: IncomingMessage, response: ServerResponse, pathname: string, data: string): void {
         let myPostData: any;
@@ -69,9 +69,8 @@ export class Router {
                         // DOS Protection
                         Router.getInstance().throttledNr ++;
                         Router.getInstance().throttleThat = true;
-                        _.throttle( Router.getInstance().throttleTester , 500) ();
+                        Router.getInstance().throttleTester();
                         if ( Router.getInstance().throttleThat) {
-                            console.log("Throttled: " + Router.getInstance().throttledNr);
                             data = "";
                             return Promise.reject( new Error(JSON.stringify(errorMessages.SlowerPlease) ));
                         }
