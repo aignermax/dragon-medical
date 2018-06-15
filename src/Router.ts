@@ -99,7 +99,9 @@ export class Router {
                     return jwToken.verifyPromise( token );
                 })
                 .then(() => {
-                    if (myPostData.class === "doctor") {
+
+                    // Todo -> implement intelligent pattern here - CommandPattern (?) :) 
+                    if (myPostData.class === "doctor") { 
                         switch (myPostData.method) {
                             case "getAll": {
                                 return doctor.getAll();
